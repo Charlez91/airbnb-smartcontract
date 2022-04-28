@@ -113,7 +113,7 @@ contract Airbnb is Ownable{
     
 
     function checkBookings(uint256 id, string[] memory newBookings) private view returns (bool){
-        require(id>0 && id<rentalId,"Id must be valid and not greater than max id");
+        require(id<rentalId,"Id must be valid and not greater than max id");
 
         for (uint i = 0; i < newBookings.length; i++) {
             for (uint j = 0; j < rentals[id].datesBooked.length; j++) {
@@ -139,13 +139,13 @@ contract Airbnb is Ownable{
     }
 
     function getRental(uint256 id) public view returns (string memory, uint256, string[] memory){
-        require(id < rentalId, "No such Rental");
+        require(id <= rentalId, "No such Rental");//should have made it less than and equal to
 
         RentalInfo storage s = rentals[id];
         return (s.name,s.pricePerDay,s.datesBooked);
     }
 
-    function getRental() public view returns (RentalInfo[] memory){
+    function getAllRentals() public view returns (RentalInfo[] memory){
         uint itemCount = _rentalIds.current();
         uint currentIndex = 0;
 
